@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caih.cloudec.financial.dao.PayInfoMapper">
+	<!--收付款信息表 -->
+	<resultMap type="PaymentInfo" id="PaymentInfoMap">
+		<id column="payment_info_id" property="paymentInfoId" />
+		<result column="type" property="type" />
+		<result column="payment_order_no" property="paymentOrderNo" />
+		<result column="stores_id" property="storesId" />
+		<result column="source_no" property="sourceNo" />
+		<result column="status" property="status" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="operator_id" property="operatorId" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+		<result column="source_time" property="sourceTime" />
+		<result column="invoice_status" property="invoiceStatus" />
+		<result column="phone" property="phone" />
+
+	</resultMap>
+
+	<!--收付款详情表 -->
+	<resultMap type="PaymentItem" id="PaymentItemMap">
+		<id column="payment_item_id" property="paymentItemId" />
+		<result column="payment_info_id" property="paymentInfoId" />
+		<result column="payment_type" property="paymentType" />
+		<result column="payment_name" property="paymentName" />
+		<result column="amount" property="amount" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+		<result property="discount" column="discount"/>
+		<result property="unpaid" column="unpaid"/>
+		<result property="invoiceId" column="invoiceId"/>
+		<association property="paymentInfo" resultMap="PaymentInfoMap"></association>
+		<association property="receivablesPayablesOrder"
+			resultMap="com.caih.cloudec.financial.dao.ReceivablesPayablesOrderMapper.ReceivablesPayablesOrder"></association>
+	</resultMap>
+
+	<!-- 查询所有收款信息 -->
+	<select id="queryPaymentInfo" resultMap="PaymentInfoMap">
+	<![CDATA[
+		select * from T_payment_info where total_amount < 0 ]]>
+		<if test="phone !=null and phone !=''">
+			and phone=#{phone}
+		</if>
+		<if test="invoiceStatus !=null and invoiceStatus !=''">
+			and invoice_status=#{invoiceStatus}
+		</if>
+		<if test="status !=null and status !=''">
+			and status=#{status}
+		</if>
+		<if test="supplierId !=null and supplierId != ''">
+			and supplier_id=#{supplierId}
+		</if>
+		<if test="operatorId !=null and operatorId !=''">
+			and operator_id=#{operatorId}
+		</if>
+		<if test="createTime !=null and createTime !=''">
+			and create_time=#{createTime}
+		</if>
+	</select>
+
+	<select id="queryReceivceInfo" resultMap="PaymentInfoMap">
+	<![CDATA[
+		select * from T_payment_info where total_amount > 0 ]]>
+		<if test="phone !=null and phone !=''">
+			and phone=#{phone}
+		</if>
+		<if test="invoiceStatus !=null and invoiceStatus !=''">
+			and invoice_status=#{invoiceStatus}
+		</if>
+		<if test="status !=null and status !=''">
+			and status=#{status}
+		</if>
+		<if test="supplierId !=null and supplierId != ''">
+			and supplier_id=#{supplierId}
+		</if>
+		<if test="operatorId !=null and operatorId !=''">
+			and operator_id=#{operatorId}
+		</if>
+		<if test="createTime !=null and createTime !=''">
+			and create_time=#{createTime}
+		</if>
+	</select>
+
+	<select id="findById" resultMap="PaymentItemMap">
+		SELECT
+		a.source_no,
+		a.type,
+		a.supplier_id,
+		a.operator_id,
+		a.invoice_status,
+		b.payment_type,
+		b.amount,
+		0 AS discount,
+		c.total_amount - b.amount AS unpaid,
+		"123" as invoiceId,
+		c.total_amount,
+		c.paid_amount,
+		c.unpaid_amount
+		FROM
+		t_payment_info a,
+		t_payment_item b,
+		t_receivables_payables_order c
+		WHERE
+		a.payment_info_id = #{id}
+		AND a.payment_info_id = b.payment_info_id
+		AND a.source_no = c.order_no
+	</select>
+	<!-- 收付款详情表插入数据 -->
+	<insert id="insertPaymentItem">
+		insert into T_payment_item
+		values(#{paymentItemId},#{paymentInfoId},#{paymentType},#{paymentName},
+		#{amount},#{createTime},#{updateTime},#{createUserId},#{updateUserId})
+	</insert>
+	<!--根据id删除收付款详情表数据 -->
+	<delete id="deletePaymentItem">
+		delete from T_payment_item where
+		payment_item_id=#{paymentItemId}
+	</delete>
+	<!-- 更新收付款详情数据 -->
+	<update id="updatePaymentItem">
+		update t_payment_item set
+		payment_info_id=#{paymentInfoId},payment_type=#{paymentType},payment_name=#{paymentName},
+		amount=#{amount},create_time=#{createTime},
+		update_time=#{updateTime},create_user_id=#{createUserId},update_user_id=#{updateUserId}
+		where
+		payment_item_id=#{paymentItemId}
+	</update>
+
+	<!--插入收付款信息 -->
+	<insert id="insertPaymentInfo">
+		insert into t_payment_info values(
+		#{paymentInfoId},
+		#{type},
+		#{paymentOrderNo},
+		#{sourceNo},
+		#{storesId},
+		#{supplierId},
+		#{operatorId},
+		#{totalAmount},
+		#{status},
+		#{createTime},
+		#{updateTime},
+		#{createUserId},
+		#{updateUserId},
+		#{phone},
+		#{invoiceStatus},
+		#{sourceTime}
+		)
+	</insert>
+	
+	<!-- 更新收付款状态-->
+	<update id="updateStatus" parameterType="hashMap">
+	update t_payment_info set
+	<choose>
+	<when test="status=='00'">
+	 status='11'
+	</when>
+	<otherwise>
+	status='00'
+	</otherwise>
+	</choose>
+	where
+		payment_info_id=#{id}
+	</update>
+
+	<!-- 更新收付款信息 -->
+	<update id="updatePaymentInfo">
+		update t_payment_info set
+		type=#{type},
+		payment_order_no=#{paymentOrderNo},
+		source_no=#{sourceNo},
+		stores_id=#{storesId},
+		supplier_id=#{supplierId},
+		operator_id=#{operatorId},
+		total_amount=#{totalAmount},
+		status=#{status},
+		create_time=#{createTime},
+		update_time=#{updateTime},
+		create_user_id=#{createUserId},
+		update_user_id=#{updateUserId}
+		where
+		payment_info_id=#{paymentInfoId}
+	</update>
+
+	<!-- 删除收付款信息 -->
+	<delete id="deletePaymentInfo">
+		delete from t_payment_info where
+		payment_info_id=#{id}
+	</delete>
+</mapper>

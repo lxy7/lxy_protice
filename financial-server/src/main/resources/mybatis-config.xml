@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->
+    <typeAliases>
+        <typeAlias type="com.caih.cloudec.financial.bean.po.TReceivablesPayablesOrder" alias="ReceivablesPayablesOrder"/>
+        <typeAlias type="com.caih.cloudec.financial.bean.po.TInvoiceInfo" alias="InvoiceInfo"/>
+        <typeAlias type="com.caih.cloudec.financial.bean.po.TInvoiceItem" alias="InvoiceItem"/>
+        <typeAlias type="com.caih.cloudec.financial.bean.po.TPaymentInfo" alias="PaymentInfo"/>
+        <typeAlias type="com.caih.cloudec.financial.bean.po.TPaymentItem" alias="PaymentItem"/>
+    </typeAliases>
+   <!--  <mappers>
+        <mapper resource="com/caih/cloudec/financial/dao/mapping/TReceivablesPayablesOrderMapper.xml" />
+        <mapper resource="com/caih/cloudec/financial/dao/mapping/InvoiceInfoMapper.xml" />
+        <mapper resource="com/caih/cloudec/financial/dao/mapping/PayInfoMapper.xml" />
+        <mapper resource="com/caih/cloudec/financial/dao/mapping/SupplierAccountMapper.xml" />
+    </mappers> -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+</configuration>

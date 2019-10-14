@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: psi-server
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.caih.cloudec
+Build-Jdk: 1.7.0_17
+Built-By: 14662
+Created-By: Maven Integration for Eclipse
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/psi-server
+

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caih.cloudec.financial.dao.TReceivablesPayablesOrderMapper">
+<resultMap type="ReceivablesPayablesOrder" id="ReceivablesPayablesOrder">
+<id column="rp_order_id" property="rpOrderId" />
+<result column="order_no" property="orderNo" />
+		<result column="stores_id" property="storesId" />
+		<result column="source_order_no" property="sourceOderNo" />
+		<result column="source_type" property="sourceType" />
+		<result column="order_type" property="orderType" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="tran_object" property="tranObject" />
+		<result column="unpaid_amount" property="unpaidAmount" />
+		<result column="paid_amount" property="paidAmount" />
+		<result column="review_status" property="reviewStatus" />
+		<result column="payment_status" property="paymentStatus" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+		<result column="status" property="status" />
+</resultMap>
+		
+	<select id="queryTReceivablesPayablesOrderList"
+		parameterType="com.caih.cloudec.financial.bean.po.TReceivablesPayablesOrder"
+		resultType="com.caih.cloudec.financial.bean.po.TReceivablesPayablesOrder">
+		select rp_order_id rporderid,
+		order_no orderno,
+		stores_id storesid,
+		source_order_no sourceorderno,
+		source_type sourcetype,
+		order_type ordertype,
+		total_amount totalamount,
+		tran_object tranobject,
+		unpaid_amount unpaidamount,
+		paid_amount paidamount,
+		review_status reviewstatus,
+		payment_status paymentstatus,
+		create_time createtime,
+		update_time updatetime,
+		create_user_id createuserid,
+		update_user_id updateuserid,
+		status status
+		from t_receivables_payables_order
+		<where>
+			<if test="rpOrderId != null and rpOrderId != ''">
+				and rp_order_id = #{rpOrderId}
+			</if>
+			<if test="storesId != null and storesId != ''">
+				and stores_id = #{storesId}
+			</if>
+			<if test="orderType != null and orderType != ''">
+				and order_type = #{orderType}
+			</if>
+		</where>
+	</select>
+	<insert id="insert">
+		insert into t_receivables_payables_order values(
+		#{rpOrderId},
+		#{orderNo},
+		#{storesId},
+		#{sourceOderNo},
+		#{sourceType},
+		#{orderType},
+		#{totalAmount},
+		#{tranObject},
+		#{unpaidAmount},
+		#{paidAmount},
+		#{reviewStatus},
+		#{paymentStatus},
+		#{createTime},
+		#{updateTime},
+		#{createUserId},
+		#{updateUserId},
+		#{status})
+	</insert>
+	<update id="update">
+		update t_receivables_payables_order set
+		order_no=#{orderNo},
+		stores_id=#{storesId},
+		source_order_no=#{sourceOderNo},
+		source_type=#{sourceType},
+		order_type=#{orderType},
+		total_amount=#{totalAmount},
+		tran_object=#{tranObject},
+		unpaid_amount=#{unpaidAmount},
+		paid_amount=#{paidAmount},
+		review_status=#{reviewStatus},
+		payment_status=#{paymentStatus},
+		create_time=#{createTime},
+		update_time=#{updateTime},
+		create_user_id=#{createUserId},
+		update_user_id=#{updateUserId},
+		status=#{status}
+		where rp_order_id=#{rpOrderId}
+	</update>
+	<delete id="delete">
+		delete from t_receivables_payables_order where rp_order_id=#{id}
+	</delete>
+	<select id="queryStatus">
+		select payment_status from t_receivables_payables_order where
+		rp_order_id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- <classPathEntry location="D:/jar/woego_mavent/com/sqlserver/sqljdbc4/1.1/sqljdbc4-1.1.jar" 
+		/> <classPathEntry location="D:/jar/woego_mavent/com/oracle/ojdbc6/11.2.0.4.0/ojdbc6-11.2.0.4.0.jar" 
+		/> <classPathEntry location="E:/maven/Java/repository/oracle/ojdbc6/11.2.0.3.0/ojdbc6-11.2.0.3.0.jar" 
+		/> <classPathEntry location="E:/maven/Java/repository/oracle/ojdbc6/11.2.0.3.0/ojdbc6-11.2.0.3.0.jar" 
+		/> -->
+
+	<context id="mysqlTables" targetRuntime="MyBatis3">
+
+		<property name="javaFileEncoding" value="UTF-8" />
+		<property name="DBType" value="mysql" />
+		<!-- <property name="DBType" value="oracle"/> -->
+
+		<!-- 设置 isMergeable = false； 在生成 xml文件的时候，将不是合并，而是直接覆盖 -->
+		<plugin type="com.caih.cloudec.common.plugin.MybatisCfgOverIsMergeablePlugin" />
+		
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 主键com.mysql.cj.jdbc.Driver -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://10.19.17.8:3306/cecmysqldev1?useUnicode=true&amp;useSSL=false&amp;characterEncoding=UTF-8" 
+			userId="comdev1"
+			password="comdev1_123">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.caih.cloudec.test.bean.po" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.caih.cloudec.test.dao" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.caih.cloudec.test.dao" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 
+
+		 -->
+
+		<table tableName="t_z_test" domainObjectName="TZtest"
+			enableDeleteByExample="false" enableDeleteByPrimaryKey="false">
+			<property name="ignoreQualifiersAtRuntime" value="true" />
+		</table>
+
+		<!-- 
+		mvn mybatis-generator:generate -DgenCfg=weisd
+		 -->
+	</context>
+</generatorConfiguration>

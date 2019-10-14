@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caih.cloudec.financial.dao.SupplierAccountMapper">
+	<!-- 插入账号 -->
+	<insert id="insert">
+		insert into t_supplier_account values(
+		#{supplierAccountId},
+		#{supplierId},
+		#{accountNo},
+		#{accountName},
+		#{bankName},
+		#{bankCode},
+		#{status},
+		#{remark},
+		#{createTime},
+		#{updateTime},
+		#{createUserId},
+		#{updateUserId}
+		)
+	</insert>
+
+	<!-- 更新账号 -->
+	<update id="update">
+		update t_supplier_account set
+		supplier_id=#{supplierId},
+		account_no=#{accountNo},
+		account_name=#{accountName},
+		bank_name=#{bankName},
+		bank_code=#{bankCode},
+		status=#{status},
+		remark=#{remark},
+		create_time=#{createTime},
+		update_time=#{updateTime},
+		create_user_id=#{createUserId},
+		update_user_id=#{updateUserId}
+		where supplier_account_id=#{supplierAccountId}
+	</update>
+	
+	<!-- 删除账号-->
+	<delete id="delete">
+	    delete from t_supplier_account where supplier_account_id=#{id} 
+	</delete>
+</mapper>

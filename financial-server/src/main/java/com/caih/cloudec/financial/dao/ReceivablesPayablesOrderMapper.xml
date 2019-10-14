@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caih.cloudec.financial.dao.ReceivablesPayablesOrderMapper">
+	<resultMap type="ReceivablesPayablesOrder" id="ReceivablesPayablesOrder">
+		<id column="rp_order_id" property="rpOrderId" />
+		<result column="order_no" property="orderNo" />
+		<result column="stores_id" property="storesId" />
+		<result column="source_order_no" property="sourceOrderNo" />
+		<result column="source_type" property="sourceType" />
+		<result column="order_type" property="orderType" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="tran_object" property="tranObject" />
+		<result column="unpaid_amount" property="unpaidAmount" />
+		<result column="paid_amount" property="paidAmount" />
+		<result column="review_status" property="reviewStatus" />
+		<result column="payment_status" property="paymentStatus" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+		<result column="status" property="status" />
+		<result column="source_order_Time" property="sourceOrderTime" />
+		<result column="financial" property="financial" />
+	</resultMap>
+
+	<select id="queryReceivablesOrder" parameterType="ReceivablesPayablesOrder"
+		resultMap="ReceivablesPayablesOrder">
+		 <![CDATA[select * from t_receivables_payables_order where total_amount > 0]]>
+		<if test="reviewStatus != null and reviewStatus != ''">
+			and review_status = #{reviewStatus}
+		</if>
+		<if test="paymentStatus != null and paymentStatus != ''">
+			and payment_status = #{paymentStatus}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and create_time = #{createTime}
+		</if>
+		<if test="tranObject != null and  tranObject!= ''">
+			and tran_object = #{tranObject}
+		</if>
+	</select>
+	
+	
+	<select id="queryPayablesOrder" parameterType="ReceivablesPayablesOrder"
+		resultMap="ReceivablesPayablesOrder">
+		 <![CDATA[select * from t_receivables_payables_order where total_amount < 0]]>
+		<if test="reviewStatus != null and reviewStatus != ''">
+			and review_status = #{reviewStatus}
+		</if>
+		<if test="paymentStatus != null and paymentStatus != ''">
+			and payment_status = #{paymentStatus}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and create_time = #{createTime}
+		</if>
+		<if test="tranObject != null and  tranObject!= ''">
+			and tran_object = #{tranObject}
+		</if>
+	</select>
+	
+	<select id="queryDetailedById" parameterType="PaymentInfo" resultMap="com.caih.cloudec.financial.dao.PayInfoMapper.PaymentInfoMap">
+	select * from t_payment_info a where a.source_no=#{id}
+	</select>
+	<insert id="insert">
+		insert into t_receivables_payables_order values(
+		#{rpOrderId},
+		#{orderNo},
+		#{storesId},
+		#{sourceOrderNo},
+		#{sourceType},
+		#{orderType},
+		#{totalAmount},
+		#{tranObject},
+		#{unpaidAmount},
+		#{paidAmount},
+		#{reviewStatus},
+		#{paymentStatus},
+		#{createTime},
+		#{updateTime},
+		#{createUserId},
+		#{updateUserId},
+		#{status},
+		#{sourceOrderTime},
+		#{financial})
+	</insert>
+	<update id="update">
+		update t_receivables_payables_order set
+		order_no=#{orderNo},
+		stores_id=#{storesId},
+		source_order_no=#{sourceOrderNo},
+		source_type=#{sourceType},
+		order_type=#{orderType},
+		total_amount=#{totalAmount},
+		tran_object=#{tranObject},
+		unpaid_amount=#{unpaidAmount},
+		paid_amount=#{paidAmount},
+		review_status=#{reviewStatus},
+		payment_status=#{paymentStatus},
+		create_time=#{createTime},
+		update_time=#{updateTime},
+		create_user_id=#{createUserId},
+		update_user_id=#{updateUserId},
+		status=#{status}
+		where
+		rp_order_id=#{rpOrderId}
+	</update>
+	<delete id="delete">
+		delete from t_receivables_payables_order where
+		rp_order_id=#{id}
+	</delete>
+	<select id="queryStatus">
+		select payment_status from
+		t_receivables_payables_order where
+		rp_order_id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caih.cloudec.financial.dao.InvoiceInfoMapper">
+	<resultMap type="InvoiceInfo" id="InvoiceInfoMap">
+		<id column="invoice_info_id" property="invoiceInfoId" />
+		<result column="stores_id" property="storesId" />
+		<result column="invoice_info_order" property="invoiceInfoOrder" />
+		<result column="invoice_no" property="invoiceNo" />
+		<result column="looked_up" property="lookedUp" />
+		<result column="status" property="status" />
+		<result column="person" property="person" />
+		<result column="invoice_type" property="invoiceType" />
+		<result column="tax_rate" property="taxRate" />
+		<result column="tax_no" property="taxNo" />
+		<result column="phone" property="phone" />
+		<result column="address" property="address" />
+		<result column="account_no" property="accountNo" />
+		<result column="invoice_date" property="invoiceDate" />
+		<result column="bank_name" property="bankName" />
+		<result column="remark" property="remark" />
+		<result column="review_status" property="reviewStatus" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+	</resultMap>
+
+	<!--收付款详情表 -->
+	<resultMap type="InvoiceItem" id="InvoiceItemMap">
+		<id column="invoice_item_id" property="invoiceItemId" />
+		<result column="invoice_info_id" property="invoiceInfoId" />
+		<result column="material_id" property="materialId" />
+		<result column="material_name" property="materialName" />
+		<result column="material_type_name" property="materialTypeName" />
+		<result column="unit_name" property="unitName" />
+		<result column="number" property="number" />
+		<result column="unit_Price" property="unitPrice" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="tax_rate" property="taxRate" />
+		<result column="tax_amount" property="taxAmount" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="update_user_id" property="updateUserId" />
+	</resultMap>
+
+
+	<!-- 查询所有开票信息 -->
+	<select id="querInvoice" resultMap="InvoiceInfoMap">
+		select * from T_invoice_info where 1=1
+		<if test="invoiceInfoOrder !=null">
+		   and invoice_info_order=#{invoiceInfoOrder}
+		</if>
+		<if test="invoiceNo !=null">
+		   and invoice_no=#{invoiceNo}
+		</if>
+		<if test="lookedUp !=null">
+		   and looked_up=#{lookedUp}
+		</if>
+		<if test="person !=null">
+		   and person=#{person}
+		</if>
+		<if test="invoiceType !=null">
+		   and invoice_type=#{invoiceType}
+		</if>
+		<if test="invoiceDate !=null">
+		   and invoice_date=#{invoiceDate}
+		   
+		</if>
+	</select>
+	<select id="findById" resultMap="InvoiceItemMap">
+		select * from T_invoice_item where invoice_info_id=#{id}
+	</select>
+	<!-- 开票详情插入数据 -->
+	<insert id="insertInvoiceItem">
+		insert into T_invoice_item values(#{invoiceItemId},#{invoiceInfoId},
+		#{materialId},#{materialName},#{materialTypeName},#{unitName},#{number},#{unitPrice},
+		#{totalAmount},#{taxRate},#{taxAmount},#{createTime},#{updateTime},#{createUserId},
+		#{updateUserId})
+	</insert>
+	<!--根据id删除应付详情表数据 -->
+	<delete id="deleteInvoiceItem">
+		delete from T_invoice_item where invoice_item_id=#{invoiceItemId}
+	</delete>
+	<update id="updateInvoiceItem">
+		update T_invoice_item set
+		invoice_info_id=#{invoiceInfoId},material_id=#{materialId},
+		material_name=#{materialName},material_type_name=#{materialTypeName},
+		unit_name=#{unitName},number=#{number},unit_price=#{unitPrice},
+		total_Amount=#{totalAmount},tax_Rate=#{taxRate},tax_Amount=#{taxAmount},
+		create_time=#{createTime},
+		update_time=#{updateTime},create_user_id=#{createUserId},update_user_id=#{updateUserId}
+		where
+		invoice_item_id=#{invoiceItemId}
+	</update>
+
+	<insert id="insertInvoiceInfo">
+		insert into t_invoice_info values(
+		#{invoiceInfoId},
+		#{storesId},
+		#{invoiceInfoOrder},
+		#{invoiceNo},
+		#{lookedUp},
+		#{person},
+		#{invoiceType},
+		#{taxRate},
+		#{taxNo},
+		#{phone},
+		#{address},
+		#{accountNo},
+		#{bankName},
+		#{remark},
+		#{reviewStatus},
+		#{invoiceDate},
+		#{status},
+		#{createTime},
+		#{updateTime},
+		#{createUserId},
+		#{updateUserId})
+	</insert>
+	<update id="updateInvoiceInfo">
+		update t_invoice_info set
+		stores_id=#{storesId},
+		invoice_info_order=#{invoiceInfoOrder},
+		invoice_no=#{invoiceNo},
+		looked_up=#{lookedUp},
+		person=#{person},
+		invoice_type=#{invoiceType},
+		tax_rate=#{taxRate},
+		tax_no=#{taxNo},
+		phone=#{phone},
+		address=#{address},
+		account_no=#{accountNo},
+		bank_name=#{bankName},
+		remark=#{remark},
+		review_status=#{reviewStatus},
+		invoice_date=#{invoiceDate},
+		status=#{status},
+		create_time=#{createTime},
+		update_time=#{updateTime},
+		create_user_id=#{createUserId},
+		update_user_id=#{updateUserId}
+		where invoice_info_id=#{invoiceInfoId}
+	</update>
+	<delete id="deleteInvoiceInfo">
+		delete from t_invoice_info where invoice_info_id=#{id}
+	</delete>
+</mapper>
