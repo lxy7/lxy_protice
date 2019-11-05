@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<classifiers>
+ <classifier id="System">
+ <table name="HT_SYS_DEFINITION">
+ <insert_update>
+ <![CDATA[
+ 模型1 表1 sql1
+merge into  ht_sys_definition a USING  (select * from t_md_instance where start_time <= #fireTime# and start_time >= #previousFireTime# and classifier_id = 'System') b
+ON (a.sys_id = b.instance_id ) when MATCHED then UPDATE SET a.sys_name=b.instance_name and a.sys_code=b.instance_code when  not MATCHED then INSERT   (a.sys_id,a.sys_name,a.sys_code) values (b.instance_id,b.instance_name,b.instance_code);
+]]>
+</insert_update>
+ <delete>模型1 表1 sql2</delete>
+</table>
+<table name="HT_SYS_SD">
+ <insert_update>
+ <![CDATA[
+模型1 表2 sql1
+]]>
+</insert_update>
+ <delete>模型1 表2 sql2</delete>
+</table>
+ </classifier>
+ <classifier id="System2">
+ <table name="tablename1">
+ <insert_update>
+ <![CDATA[
+模型2 表1 sql1
+]]>
+</insert_update>
+ <delete>模型2 表1 sql2</delete>
+ </table>
+ <table name="tablename2">
+ <insert_update>
+ <![CDATA[
+模型2 表2 sql1
+]]>
+</insert_update>
+ <delete>模型2 表2 sql2</delete>
+ </table>
+ </classifier>
+</classifiers>
