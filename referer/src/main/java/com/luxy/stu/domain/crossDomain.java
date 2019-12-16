@@ -46,9 +46,12 @@ public class crossDomain extends HttpServlet {
 		resp.setContentType("application/json");
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("name", name);
-		resp.getWriter().println(jsonObject.toJSONString() );
+		//resp.getWriter().println(jsonObject.toJSONString() );
 		//跨域解决方法-1.设置头部允许所有
-		resp.setHeader("Access-Control-Allow-Origin", "*");
+		//resp.setHeader("Access-Control-Allow-Origin", "*");
+		//跨域解决方法-2.jsonp
+		String jsonCallback = req.getParameter("jsonpCallback");
+		resp.getWriter().println(jsonCallback+"("+jsonObject.toJSONString()+")" );
 		
 		
 	}

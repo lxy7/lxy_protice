@@ -13,7 +13,9 @@
 		  type: "get",
 		  async: false,
 		  url: "http://luxy.com:8080/referer/domain?name=luxy",
-		  dataType: "json",
+		  //dataType: "json",
+		  dataType:"jsonp",
+		  jsonp: "jsonpCallBack",//服务端接收调用function的参数
 		  success: function(data){
 			  alert("data: "+data["name"]);
 		  },
