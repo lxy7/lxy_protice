@@ -38,9 +38,32 @@ public class Form extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("post");
+		if(! isFlag(req)){
+			resp.getWriter().write("faile");
+			System.out.println("重复提交");
+			return;
+		}
 		String name = req.getParameter("userName");
 		System.out.println("获取name="+name);
+		resp.getWriter().write("success");
 	}
 	
+	public boolean isFlag(HttpServletRequest req){
+		String formToken = req.getParameter("token");//获取表单中的token值
+		String sessionToken = (String) req.getSession().getAttribute("token");//获取session中的token
+		if(formToken == null || formToken.isEmpty()){
+			System.out.println("表单token值为空！！！");
+			return false;
+		}else if(sessionToken == null || sessionToken.isEmpty()){
+			System.out.println("会话token值为空！！！");
+			return false;
+		}else if(! sessionToken.equals(formToken)){
+			System.out.println("sessionToken = " + sessionToken +"formToken = " +formToken);
+			return false;
+		}
+		System.out.println("删除sessionToken");
+		req.getSession().removeAttribute("token");
+		return true;
+	}
 
 }

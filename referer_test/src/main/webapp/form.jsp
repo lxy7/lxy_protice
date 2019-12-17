@@ -20,6 +20,7 @@
 </script>
 <body>
 <form action="${pageContext.request.contextPath}/form" onsubmit="return isSubmit()">
+<input type="hidden" value="${token}" name="token">
 用户名：<input type="text" name="userName">
 <input type="submit" value="提交" id="submit">
 </form>
