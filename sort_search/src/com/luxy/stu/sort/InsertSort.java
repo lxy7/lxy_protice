@@ -33,9 +33,11 @@ public class InsertSort {
 	}
 	
 	public static void print(int arr[]){
+		String str = " ";
 		for (int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]+"  ");
+			str += arr[i]+" ";	
 		}
+		System.out.println(str);
 	}
 
 }
