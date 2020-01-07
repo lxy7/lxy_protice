@@ -1,5 +1,7 @@
 
 package com.luxy.stu.mapper;
+import java.util.HashMap;
+
 import com.luxy.stu.entity.User;
 
 /**
@@ -9,6 +11,9 @@ import com.luxy.stu.entity.User;
  * @email: luxy@primeton.com
  */
 public interface UserMapper {
+	
 	public User getUser(String id);
+	
+	public User login(HashMap map);
 
 }

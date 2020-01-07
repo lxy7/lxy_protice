@@ -4,5 +4,9 @@
 	<select id="getUser" parameterType="String" resultType="com.luxy.stu.entity.User">
 		select * from a_user where id = #{id}
 	</select>
+	
+	<select id ="login" parameterType="HashMap" resultType="com.luxy.stu.entity.User">
+	    select * from a_user where name =#{name} and password = #{password}
+	</select>
 
 </mapper>
