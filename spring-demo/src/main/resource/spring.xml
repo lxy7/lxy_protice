@@ -11,4 +11,9 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
         <bean id = "user" class = "com.luxy.stu.entity.User"></bean>
+         <bean id = "user2" class = "com.luxy.stu.entity.User" scope="singleton">
+         <constructor-arg name="name" value="luxy"></constructor-arg>
+         <constructor-arg name="password" value="123456"></constructor-arg>
+         <constructor-arg name="id" value="2020001"></constructor-arg>
+         </bean>
  </beans>

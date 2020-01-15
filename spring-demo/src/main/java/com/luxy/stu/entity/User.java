@@ -13,6 +13,25 @@ public class User {
 	private String id;
 	private String name;
 	private String password;
+	
+	
+	/**
+	 * 
+	 */
+	public User() {
+		System.out.println("无参构造方法！");
+	}
+	/**
+	 * @param id
+	 * @param name
+	 * @param password
+	 */
+	public User(String id, String name, String password) {
+		System.out.println("有参构造方法！");
+		this.id = id;
+		this.name = name;
+		this.password = password;
+	}
 	/**
 	 * @return the id
 	 */
