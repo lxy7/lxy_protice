@@ -6,6 +6,7 @@ package com.luxy.stu.test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.luxy.stu.entity.User;
+import com.luxy.stu.service.UserService;;
 
 /**
  * @classDesc: 
@@ -29,6 +30,11 @@ public class SpringTest1 {
 		//有参构造
 		User user2 = (User) applicationContext.getBean("user2");
 		System.out.println("id = "+user2.getId()+" name = "+user2.getName()+"   password = "+user2.getPassword());
+		
+		
+		//
+		UserService userService =  (UserService) applicationContext.getBean("userService");
+		userService.add();
 		
 
 	}

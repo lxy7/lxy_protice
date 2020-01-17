@@ -10,5 +10,9 @@ package com.luxy.stu.dao;
  * @email: luxy@primeton.com
  */
 public class UserDao {
+	
+	public void add(){
+		System.out.println("I'am UserDao");
+	}
 
 }

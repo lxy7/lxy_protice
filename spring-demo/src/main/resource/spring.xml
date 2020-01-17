@@ -16,4 +16,9 @@
          <constructor-arg name="password" value="123456"></constructor-arg>
          <constructor-arg name="id" value="2020001"></constructor-arg>
          </bean>
+         
+         <bean id = "userDao" class = "com.luxy.stu.dao.UserDao"></bean>
+         <bean id = "userService" class = "com.luxy.stu.service.UserService">
+         <property name="userDao" ref="userDao"></property>
+         </bean>
  </beans>
